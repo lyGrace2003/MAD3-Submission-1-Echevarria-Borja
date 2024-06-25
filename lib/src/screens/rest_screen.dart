@@ -6,13 +6,15 @@ import 'package:http/http.dart' as http;
 import 'package:midterm_project/src/model/post_model.dart';
 import 'package:midterm_project/src/model/user_model.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:midterm_project/src/routing/router.dart';
 
 //add and delete post works
 
 class RestDemoScreen extends StatefulWidget {
   static const String route = "/rest";
 
-  static const String name =  "RestDemoScreen";
+  static const String name = "RestDemoScreen";
   const RestDemoScreen({super.key});
 
   @override
@@ -38,10 +40,17 @@ class _RestDemoScreenState extends State<RestDemoScreen> {
             icon: const Icon(Icons.refresh)),
         actions: [
           IconButton(
-              onPressed: () {
-                showNewPostFunction(context);
-              },
-              icon: const Icon(Icons.add, color: Color(0xFF00BF62)))
+            onPressed: () {
+              showNewPostFunction(context);
+            },
+            icon: const Icon(Icons.add, color: Color(0xFF00BF62)),
+          ),
+          IconButton(
+            onPressed: () {
+              GlobalRouter().logout();
+            },
+            icon: const Icon(Icons.logout, color: Colors.red),
+          ),
         ],
       ),
       body: SafeArea(

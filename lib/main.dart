@@ -19,17 +19,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalRouter _globalRouter = GlobalRouter();
+    final GlobalRouter globalRouter = GlobalRouter();
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      routerDelegate: _globalRouter.router.routerDelegate,
-      routeInformationParser: _globalRouter.router.routeInformationParser,
-      routeInformationProvider: _globalRouter.router.routeInformationProvider,
+      theme: ThemeData.dark(),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      //   useMaterial3: true,
+      // ),
+      routerDelegate: globalRouter.router.routerDelegate,
+      routeInformationParser: globalRouter.router.routeInformationParser,
+      routeInformationProvider: globalRouter.router.routeInformationProvider,
     );
   }
 }
