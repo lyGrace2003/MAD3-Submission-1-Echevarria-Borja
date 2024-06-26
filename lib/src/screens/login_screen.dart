@@ -47,9 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: const Text('Login'),
+        title: const Text('Login', style: TextStyle(color: Colors.white),),
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           child: Form(
             key: formKey,
             child: Column(
@@ -82,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Flexible(
                   child: TextFormField(
                     decoration: decoration.copyWith(
-                      // errorStyle: const TextStyle(color: Colors.red),
                       labelText: "Username",
                       hintText: 'Enter your username',
                       prefixIcon:

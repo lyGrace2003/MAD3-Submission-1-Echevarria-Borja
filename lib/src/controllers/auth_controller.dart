@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:midterm_project/src/enum/enum.dart';
 import 'package:get_it/get_it.dart';
+import 'package:midterm_project/src/routing/router.dart';
 
 class AuthController with ChangeNotifier {
   // Static method to initialize the singleton in GetIt
@@ -19,14 +20,17 @@ class AuthController with ChangeNotifier {
     bool isLoggedIn = await api.login(userName, password);
     if (isLoggedIn) {
       state = AuthState.authenticated;
+      print(state);
       notifyListeners();
     }
   }
+
+  Future<void> logout() async {
+    state = AuthState.unauthenticated;
+    print(state);
+    notifyListeners(); 
+  }
 }
-
-// logout() {}
-
-// loadSession() async {}
 
 class SimulatedAPI {
   Map<String, String> users = {'usertester': 'passWord!000'};
