@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:midterm_project/src/authentication/auth_controller.dart';
 import 'package:midterm_project/src/model/post_model.dart';
 import 'package:midterm_project/src/screens/landing_screen.dart';
 import 'package:midterm_project/src/screens/login_screen.dart';
 import 'package:midterm_project/src/screens/rest_screen.dart';
 import 'package:midterm_project/src/model/user_model.dart';
+import 'package:provider/provider.dart';
 
 class GlobalRouter {
   final Box<Post> _postBox = Hive.box<Post>('posts');
@@ -56,6 +58,7 @@ class GlobalRouter {
   // Add the authenticate method here
   Future<bool> authenticate(String username, String password) async {
     if( predefinedAccount.username == username && predefinedAccount.password == password){
+      Provider.of<AuthController>(_rootNavigatorKey.currentContext!,listen: false).login();
       return true;
     }
     return false;
@@ -63,63 +66,11 @@ class GlobalRouter {
 
   void logout() {
     clearHiveData();
+    Provider.of<AuthController>(_rootNavigatorKey.currentContext!,listen: false).logout();
     GoRouter.of(_rootNavigatorKey.currentContext!).go(LandingScreen.route);
   }
 
   void clearHiveData() {
-    _postBox.clear(); // Clear all data in the 'posts' box
+    _postBox.clear();
   }
 }
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:midterm_project/src/screens/landing_screen.dart';
-// import 'package:midterm_project/src/screens/login_screen.dart';
-// import 'package:midterm_project/src/screens/rest_screen.dart';
-
-// class GlobalRouter {
-//   late GoRouter router;
-//   late GlobalKey<NavigatorState> _rootNavigatorKey;
-//   late GlobalKey<NavigatorState> _shellNavigatorKey;
-
-//   GlobalRouter() {
-//     _rootNavigatorKey = GlobalKey<NavigatorState>();
-//     _shellNavigatorKey = GlobalKey<NavigatorState>();
-
-//     router = GoRouter(
-//       navigatorKey: _rootNavigatorKey,
-//       initialLocation: LandingScreen.route,
-//       routes: [
-//         GoRoute(
-//           parentNavigatorKey: _rootNavigatorKey,
-//           path: LandingScreen.route,
-//           name: LandingScreen.name,
-//           builder: (context, _) {
-//             return const LandingScreen();
-//           },
-//           routes: [
-//             GoRoute(
-//                 parentNavigatorKey: _rootNavigatorKey,
-//                 path: LoginScreen.route,
-//                 name: LoginScreen.name,
-//                 builder: (context, _) {
-//                   return const LoginScreen();
-//                 }),
-//           ],
-//         ),
-//         GoRoute(
-//           parentNavigatorKey: _rootNavigatorKey,
-//           path: RestDemoScreen.route,
-//           name: RestDemoScreen.name,
-//           builder: (context, _) {
-//             return const RestDemoScreen();
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }
