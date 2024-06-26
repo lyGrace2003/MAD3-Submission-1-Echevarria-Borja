@@ -116,8 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Login'),
+        backgroundColor: Colors.white,
+        title: const Text('Login', style: TextStyle(color: Colors.black),),
       ),
       body: Form(
         key: _formKey,
@@ -128,98 +130,107 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                child: TextFormField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00BF62))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00BF62))),
-                      labelText: "Username",
-                      labelStyle: TextStyle(color: Colors.white),
-                      errorStyle: TextStyle(
-                          color: Colors.red), // Customize error text style here
-                      errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Colors.red)), // Customize error border here
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors
-                                  .red))), // Customize focused error border here
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your username'; // This message will now appear in the field itself
-                    }
-                    return null;
-                  },
+                child: Container(
+                  height: 60,
+                  width: 380,
+                  child: TextFormField(
+                    controller: _usernameController,
+                    decoration:  InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color(0xFF00BF62)),
+                            borderRadius: BorderRadius.circular(10),),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color(0xFF00BF62)),
+                            borderRadius: BorderRadius.circular(10),),
+                        labelText: "Username",
+                        labelStyle: const TextStyle(color: Colors.black),
+                        errorStyle: const TextStyle(color: Colors.red), 
+                        errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color:Colors.red),
+                            borderRadius: BorderRadius.circular(10),), 
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10),)), 
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your username'; 
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                child: TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00BF62))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00BF62))),
-                      labelText: "Password",
-                      labelStyle: TextStyle(color: Colors.white),
-                      errorStyle: TextStyle(
-                          color: Colors.red), // Customize error text style here
-                      errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Colors.red)), // Customize error border here
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors
-                                  .red))), // Customize focused error border here
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password'; // This message will now appear in the field itself
-                    }
-                    return null;
-                  },
+                child: Container(
+                  height: 60,
+                  width: 380,
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color(0xFF00BF62)),
+                            borderRadius: BorderRadius.circular(10),),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color(0xFF00BF62)),
+                            borderRadius: BorderRadius.circular(10),),
+                        labelText: "Password",
+                        labelStyle: const TextStyle(color: Colors.black),
+                        errorStyle: const TextStyle(color: Colors.red), 
+                        errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color:Colors.red),
+                            borderRadius: BorderRadius.circular(10),), 
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10),)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password'; // This message will now appear in the field itself
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        bool isAuthenticated = await GlobalRouter()
-                            .authenticate(_usernameController.text,
-                                _passwordController.text);
-                        if (isAuthenticated) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Color(0xFF00BF62),
-                            content: Text(
-                              'Logged in Successfully!',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ));
-                          GoRouter.of(context).go(RestDemoScreen.route);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Color(0xFF00BF62),
-                            content: Text(
-                              'Invalid username or password',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ));
+                  child: Container(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          bool isAuthenticated = await GlobalRouter()
+                              .authenticate(_usernameController.text,
+                                  _passwordController.text);
+                          if (isAuthenticated) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              backgroundColor: Color(0xFF00BF62),
+                              content: Text(
+                                'Logged in Successfully!',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ));
+                            GoRouter.of(context).go(RestDemoScreen.route);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              backgroundColor: Color(0xFF00BF62),
+                              content: Text(
+                                'Invalid username or password',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ));
+                          }
                         }
-                      }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(Color(0xFF00BF62)),
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(const Color(0xFF00BF62)),
+                      ),
+                      child: const Text('Login',
+                          style: TextStyle(color: Colors.white)),
                     ),
-                    child: const Text('Login',
-                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ),

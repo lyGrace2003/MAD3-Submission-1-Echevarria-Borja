@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
+import 'package:midterm_project/src/model/post_model.dart';
 import 'package:midterm_project/src/screens/landing_screen.dart';
 import 'package:midterm_project/src/screens/login_screen.dart';
 import 'package:midterm_project/src/screens/rest_screen.dart';
-import 'package:midterm_project/src/model/user_model.dart'; // Import UserModel here
+import 'package:midterm_project/src/model/user_model.dart';
 
 class GlobalRouter {
+  final Box<Post> _postBox = Hive.box<Post>('posts');
   static final GlobalRouter _instance = GlobalRouter._internal();
 
   factory GlobalRouter() => _instance;
@@ -51,13 +54,20 @@ class GlobalRouter {
   }
 
   // Add the authenticate method here
-  bool authenticate(String username, String password) {
-    return predefinedAccount.username == username &&
-        predefinedAccount.password == password;
+  Future<bool> authenticate(String username, String password) async {
+    if( predefinedAccount.username == username && predefinedAccount.password == password){
+      return true;
+    }
+    return false;
   }
 
   void logout() {
+    clearHiveData();
     GoRouter.of(_rootNavigatorKey.currentContext!).go(LandingScreen.route);
+  }
+
+  void clearHiveData() {
+    _postBox.clear(); // Clear all data in the 'posts' box
   }
 }
 
