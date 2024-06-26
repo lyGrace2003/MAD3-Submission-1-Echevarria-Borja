@@ -52,7 +52,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     ),
                   ),
                   onPressed: () {
-                    GoRouter.of(context).push(LoginScreen.path);
+                    GoRouter.of(context).push(LoginScreen.route);
                   },
                   child: const Text(
                     'Login',

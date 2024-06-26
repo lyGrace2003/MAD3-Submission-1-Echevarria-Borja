@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:midterm_project/src/model/post_model.dart';
 import 'package:midterm_project/src/model/user_model.dart';
 import 'package:provider/provider.dart';
+import 'package:midterm_project/src/screens/landing_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:midterm_project/src/routing/router.dart';
 
 //add and delete post works
 
@@ -16,6 +16,11 @@ class RestDemoScreen extends StatefulWidget {
 
   static const String name = "RestDemoScreen";
   const RestDemoScreen({super.key});
+
+  // void logout(BuildContext context) {
+  //   GoRouter.of(context)
+  //       .go(LandingScreen.route); // Ensure you have a valid context here
+  // }
 
   @override
   State<RestDemoScreen> createState() => _RestDemoScreenState();
@@ -47,7 +52,8 @@ class _RestDemoScreenState extends State<RestDemoScreen> {
           ),
           IconButton(
             onPressed: () {
-              GlobalRouter().logout();
+              AppRouter.logout(
+                  context); // Updated to use AppRouter instead of GlobalRouter
             },
             icon: const Icon(Icons.logout, color: Colors.red),
           ),
@@ -167,6 +173,12 @@ class PostCard extends StatelessWidget {
       ),
       // ),
     );
+  }
+}
+
+class AppRouter {
+  static void logout(BuildContext context) {
+    GoRouter.of(context).go(LandingScreen.route);
   }
 }
 
