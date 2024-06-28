@@ -9,6 +9,7 @@ import 'package:midterm_project/src/enum/enum.dart';
 import 'package:midterm_project/src/model/post_model.dart';
 import 'package:midterm_project/src/screens/landing_screen.dart';
 import 'package:midterm_project/src/screens/login_screen.dart';
+import 'package:midterm_project/src/screens/register.dart';
 import 'package:midterm_project/src/screens/rest_screen.dart'; // Adjusted import
 
 class GlobalRouter {
@@ -39,6 +40,8 @@ class GlobalRouter {
           path: LoginScreen.route,
           builder: (context, state) => const LoginScreen(),
         ),
+        GoRoute(path: RegistrationScreen.route,
+        builder: (context, state) => const RegistrationScreen(),),
         GoRoute(
           path: RestDemoScreen.route,
           builder: (context, state) => const RestDemoScreen(),
@@ -48,26 +51,24 @@ class GlobalRouter {
   }
 
   FutureOr<String?> handleRedirect(
-    BuildContext context,
-    GoRouterState state,
-  ) async {
-    if (AuthController.instance.state != AuthState.authenticated &&
-        state.matchedLocation == LandingScreen.route) {
-      return LandingScreen.route;
-    }
-
-    if (AuthController.instance.state == AuthState.authenticated) {
+      BuildContext context, GoRouterState state) async {
+    if (AuthController.I.state == AuthState.authenticated) {
       if (state.matchedLocation == LoginScreen.route) {
+        return RestDemoScreen.route;
+      }
+      if (state.matchedLocation == RegistrationScreen.route) {
         return RestDemoScreen.route;
       }
       return null;
     }
-
-    if (AuthController.instance.state != AuthState.authenticated &&
-        state.matchedLocation != LoginScreen.route) {
-      return LoginScreen.route;
+    if (AuthController.I.state != AuthState.authenticated) {
+      if (state.matchedLocation == LoginScreen.route) {
+        return null;
+      }
+      if (state.matchedLocation == RegistrationScreen.route) {
+        return null;
+      }
     }
-
     return null;
   }
 
@@ -77,6 +78,6 @@ class GlobalRouter {
 
   void logout(BuildContext context) {
     clearHiveData();
-    GoRouter.of(context).go(LandingScreen.route);
+    GoRouter.of(context).go('/');
   }
 }

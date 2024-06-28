@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:midterm_project/src/screens/login_screen.dart';
+import 'package:midterm_project/src/screens/register.dart';
 
 class LandingScreen extends StatefulWidget {
   static const String route = '/';
@@ -79,7 +80,9 @@ class _LandingScreenState extends State<LandingScreen> {
                             const BorderSide(color: Color(0xFF00BF62), width: 2),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      GoRouter.of(context).push(RegistrationScreen.route);
+                    },
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(fontSize: 18, color: Color(0xFF00BF62)),

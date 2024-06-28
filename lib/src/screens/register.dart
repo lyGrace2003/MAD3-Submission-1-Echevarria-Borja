@@ -1,26 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:midterm_project/src/controllers/auth_controller.dart';
 import 'package:midterm_project/src/dialogs/waiting_dialog.dart';
+class RegistrationScreen extends StatefulWidget {
+  static const String route = "/register";
 
-class LoginScreen extends StatefulWidget {
-  // static const String route = 'auth';
-  static const String route = "/auth";
-
-  static const String name = "Login Screen";
-  const LoginScreen({super.key});
+  static const String name = "Registration Screen";
+  const RegistrationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   late GlobalKey<FormState> formKey;
-  late TextEditingController email, password;
-  late FocusNode emailFn, passwordFn;
+  late TextEditingController name, email, password;
+  late FocusNode nameFn, emailFn, passwordFn;
 
   bool obfuscate = true;
 
@@ -28,8 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     formKey = GlobalKey<FormState>();
+    name = TextEditingController();
     email = TextEditingController();
     password = TextEditingController();
+    nameFn = FocusNode();
     emailFn = FocusNode();
     passwordFn = FocusNode();
   }
@@ -37,8 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     super.dispose();
+    name.dispose();
     email.dispose();
     password.dispose();
+    nameFn.dispose();
     emailFn.dispose();
     passwordFn.dispose();
   }
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.black,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: const Text('Login', style: TextStyle(color: Colors.white),),
+        title: const Text('Register', style: TextStyle(color: Colors.white),),
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -60,14 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 52,
           child: ElevatedButton(
             style: ButtonStyle(
-              backgroundColor:
-                  WidgetStateProperty.all<Color>(const Color(0xFF00BF62)),
+              backgroundColor: WidgetStateProperty.all<Color>(const Color(0xFF00BF62)),
             ),
             onPressed: () {
               onSubmit();
             },
             child: const Text(
-              'Login',
+              'Register',
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -84,64 +84,57 @@ class _LoginScreenState extends State<LoginScreen> {
                 Flexible(
                   child: TextFormField(
                     decoration: decoration.copyWith(
-                      labelText: "Email",
-                      hintText: 'Enter your email address',
-                      prefixIcon:
-                          const Icon(Icons.person, color: Color(0xFF00BF62)),
+                      labelText: "Name",
+                      hintText: 'Enter your name',
+                      prefixIcon: const Icon(Icons.person_outline, color: Color(0xFF00BF62)),
                     ),
-                    focusNode: emailFn,
-                    controller: email,
-                    onEditingComplete: () {
-                      passwordFn.requestFocus();
-                    },
+                    focusNode: nameFn,
+                    controller: name,
                     validator: MultiValidator([
-                      RequiredValidator(
-                          errorText: 'Please fill out the username'),
-                      MaxLengthValidator(32,
-                          errorText: "Email cannot exceed 32 characters"),
-                      EmailValidator(
-                                errorText: "Please select a valid email"),
+                      RequiredValidator(errorText: 'Please enter your name'),
                     ]).call,
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
+                const SizedBox(height: 8),
+                Flexible(
+                  child: TextFormField(
+                    decoration: decoration.copyWith(
+                      labelText: "Email",
+                      hintText: 'Enter your email address',
+                      prefixIcon: const Icon(Icons.email, color: Color(0xFF00BF62)),
+                    ),
+                    focusNode: emailFn,
+                    controller: email,
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'Please fill out the email'),
+                      EmailValidator(errorText: "Please enter a valid email"),
+                    ]).call,
+                  ),
                 ),
+                const SizedBox(height: 8),
                 Flexible(
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: obfuscate,
                     decoration: decoration.copyWith(
-                        // errorStyle: const TextStyle(color: Colors.red),
-                        labelText: "Password",
-                        hintText: 'Enter your password',
-                        prefixIcon:
-                            const Icon(Icons.lock, color: Color(0xFF00BF62)),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                obfuscate = !obfuscate;
-                              });
-                            },
-                            icon: Icon(obfuscate
-                                ? Icons.remove_red_eye_rounded
-                                : CupertinoIcons.eye_slash))),
+                      labelText: "Password",
+                      hintText: 'Enter your password',
+                      prefixIcon: const Icon(Icons.lock, color: Color(0xFF00BF62)),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obfuscate =!obfuscate;
+                          });
+                        },
+                        icon: Icon(obfuscate? Icons.visibility_off : Icons.visibility),
+                      ),
+                    ),
                     focusNode: passwordFn,
                     controller: password,
-                    onEditingComplete: () {
-                      passwordFn.unfocus();
-                    },
                     validator: MultiValidator([
                       RequiredValidator(errorText: "Password is required"),
-                      MinLengthValidator(12,
-                          errorText:
-                              "Password must be at least 12 characters long"),
-                      MaxLengthValidator(128,
-                          errorText: "Password cannot exceed 72 characters"),
-                      PatternValidator(
-                          r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+?\-=[\]{};':,.<>]).*$",
-                          errorText:
-                              'Password must contain at least one symbol, one uppercase letter, one lowercase letter, and one number.')
+                      MinLengthValidator(12, errorText: "Password must be at least 12 characters long"),
+                      MaxLengthValidator(128, errorText: "Password cannot exceed 128 characters"),
                     ]).call,
                   ),
                 ),
@@ -153,11 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  onSubmit() async {
+ onSubmit() async {
   if (formKey.currentState?.validate()?? false) {
     try {
-      UserCredential userCredential = await AuthController.I.login(email.text.trim(), password.text.trim());
-      
+      UserCredential userCredential = await AuthController.I.register(email.text.trim(), password.text.trim());
+
       if (userCredential.user!= null) {
         GoRouter.of(context).go('/rest');
       } else {
@@ -167,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 }
+
 
   final OutlineInputBorder _baseBorder = const OutlineInputBorder(
     borderSide: BorderSide(color: Colors.grey),
@@ -179,13 +173,8 @@ class _LoginScreenState extends State<LoginScreen> {
       fillColor: const Color(0xFF1E1E1E),
       errorMaxLines: 3,
       disabledBorder: _baseBorder,
-      enabledBorder: _baseBorder.copyWith(
-        borderSide: const BorderSide(color: Color(0xFF00BF62), width: 1),
-      ),
-      focusedBorder: _baseBorder.copyWith(
-        borderSide: const BorderSide(color: Colors.blueAccent, width: 1),
-      ),
-      errorBorder: _baseBorder.copyWith(
-        borderSide: const BorderSide(color: Colors.red, width: 1),
-      ));
+      enabledBorder: _baseBorder.copyWith(borderSide: const BorderSide(color: Color(0xFF00BF62), width: 1)),
+      focusedBorder: _baseBorder.copyWith(borderSide: const BorderSide(color: Colors.blueAccent, width: 1)),
+      errorBorder: _baseBorder.copyWith(borderSide: const BorderSide(color: Colors.red, width: 1)),
+  );
 }

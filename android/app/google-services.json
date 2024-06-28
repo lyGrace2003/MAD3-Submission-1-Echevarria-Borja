@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "368286494565",
+    "project_id": "to-do-d45de",
+    "storage_bucket": "to-do-d45de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368286494565:android:565bbf066c1e9aae6a7b8c",
+        "android_client_info": {
+          "package_name": "com.example.midterm_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM7xMaAOtVDl9Oc88ON-L6oSUPuD5X8v4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
