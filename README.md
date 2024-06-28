@@ -1,6 +1,8 @@
 # midterm_project
+Commmit - "Login and Logout along with data"
 
-A new Flutter project.
+#Individual Firebase - Allyssa Echevarria
+commit - Firebase intergration
 
 ## How task are divided
 
