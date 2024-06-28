@@ -1,7 +1,7 @@
 # midterm_project
 Commmit - "Login and Logout along with data"
 
-#Individual Firebase - Allyssa Echevarria
+# Individual Firebase - Allyssa Echevarria
 commit - Firebase intergration
 
 ## How task are divided
